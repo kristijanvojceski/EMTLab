@@ -9,12 +9,12 @@ public class AuthorDto {
 
     private String surname;
 
-    private String country;
+    private Long country;
 
     public AuthorDto() {
     }
 
-    public AuthorDto(String name, String surname, String country) {
+    public AuthorDto(String name, String surname, Long country) {
         this.name = name;
         this.surname = surname;
         this.country = country;

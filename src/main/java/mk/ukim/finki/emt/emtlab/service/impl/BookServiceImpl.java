@@ -1,5 +1,6 @@
 package mk.ukim.finki.emt.emtlab.service.impl;
 
+import mk.ukim.finki.emt.emtlab.models.Author;
 import mk.ukim.finki.emt.emtlab.models.Book;
 import mk.ukim.finki.emt.emtlab.models.dto.BookDto;
 import mk.ukim.finki.emt.emtlab.models.enumeration.Category;
@@ -36,8 +37,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> addNewBook(BookDto bookDto) {
-        Book book = new Book(bookDto.getName(), Category.valueOf(String.valueOf(bookDto.getCategory())),
-                this.authorRepository.findById(bookDto.getAuthor().getId()).orElseThrow(InvalidAuthorIdException::new),bookDto.getAvailableCopies());
+        Author author = this.authorRepository.findById(bookDto.getAuthor()).orElseThrow(InvalidAuthorIdException::new);
+        Book book = new Book(bookDto.getName(),bookDto.getCategory(),author, bookDto.getAvailableCopies());
         return Optional.of(this.bookRepository.save(book));
     }
 
@@ -45,8 +46,8 @@ public class BookServiceImpl implements BookService {
     public Optional<Book> editBook(Long id, BookDto bookDto) {
         Book book = this.bookRepository.findById(id).orElseThrow(InvalidBookIdException::new);
         book.setName(bookDto.getName());
-        book.setAuthor(bookDto.getAuthor());
-        book.setCategory(Category.valueOf(String.valueOf(bookDto.getCategory())));
+        book.setAuthor(this.authorRepository.findById(bookDto.getAuthor()).orElseThrow(InvalidAuthorIdException::new));
+        book.setCategory(bookDto.getCategory());
         book.setAvailableCopies(bookDto.getAvailableCopies());
         return Optional.of(this.bookRepository.save(book));
     }

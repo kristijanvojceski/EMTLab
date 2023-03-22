@@ -37,10 +37,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<Author> addNewAuthor(AuthorDto authorDto) {
-        Country country = this.countryRepository.findById(Long.valueOf(authorDto.getCountry()))
-                .orElseThrow(InvalidCountryIdException::new);
-        Author author = new Author(authorDto.getName(),authorDto.getSurname(),country);
-        return Optional.of(author);
+        Author author = new Author(authorDto.getName(),authorDto.getSurname(),
+                this.countryRepository.findById(authorDto.getCountry()).orElseThrow(InvalidCountryIdException::new));
+        return Optional.of(this.authorRepository.save(author));
     }
 
     @Override

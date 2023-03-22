@@ -24,8 +24,8 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public Optional<Country> addNewCountry(CountryDto countryDto) {
-       Country country = new Country(countryDto.getName(),countryDto.getContinent());
-       return Optional.of(this.countryRepository.save(country));
+        Country country = new Country(countryDto.getName(),countryDto.getContinent());
+        return Optional.of(this.countryRepository.save(country));
     }
 
     @Override
